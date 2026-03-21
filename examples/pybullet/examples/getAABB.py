@@ -57,13 +57,14 @@ def drawAABB(aabb):
   t = [aabbMax[0], aabbMax[1], aabbMin[2]]
   p.addUserDebugLine(f, t, [1, 1, 1])
 
+  if (printtext):
+    print(aabbMin)
+    print(aabbMax)
 
 aabb = p.getAABB(r2d2)
 aabbMin = aabb[0]
 aabbMax = aabb[1]
-if (printtext):
-  print(aabbMin)
-  print(aabbMax)
+
 if (draw == 1):
   drawAABB(aabb)
 
@@ -71,9 +72,7 @@ for i in range(p.getNumJoints(r2d2)):
   aabb = p.getAABB(r2d2, i)
   aabbMin = aabb[0]
   aabbMax = aabb[1]
-  if (printtext):
-    print(aabbMin)
-    print(aabbMax)
+
   if (draw == 1):
     drawAABB(aabb)
 
