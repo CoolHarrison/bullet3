@@ -4,17 +4,19 @@ import pybullet_data
 
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
-useCollisionShapeQuery = True
+p.setGravity(0, 0, 0)  # Set gravity to zero
+p.configureDebugVisualizer(p.COV_ENABLE_MOUSE_PICKING, 1)  # Enable mouse interaction
+useCollisionShapeQuery = False  # Changed to False to use current body positions
 p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
 geom = p.createCollisionShape(p.GEOM_SPHERE, radius=0.1)
 geomBox = p.createCollisionShape(p.GEOM_BOX, halfExtents=[0.2, 0.2, 0.2])
-baseOrientationB = p.getQuaternionFromEuler([0, 0.3, 0])  #[0,0.5,0.5,0]
+baseOrientationB = p.getQuaternionFromEuler([0, 0, 0])  # No initial rotation
 basePositionB = [1.5, 0, 1]
 obA = -1
 obB = -1
 
 obA = p.createMultiBody(baseMass=0, baseCollisionShapeIndex=geom, basePosition=[0.5, 0, 1])
-obB = p.createMultiBody(baseMass=0,
+obB = p.createMultiBody(baseMass=1,  # Give mass to make it dynamic for mouse interaction
                         baseCollisionShapeIndex=geomBox,
                         basePosition=basePositionB,
                         baseOrientation=baseOrientationB)
@@ -26,20 +28,11 @@ lineId = p.addUserDebugLine(lineFromXYZ=[0, 0, 0],
                             lineColorRGB=colorRGB,
                             lineWidth=lineWidth,
                             lifeTime=0)
-pitch = 0
-yaw = 0
+# Removed rotation variables and loop updates
 
 while (p.isConnected()):
-  pitch += 0.01
-  if (pitch >= 3.1415 * 2.):
-    pitch = 0
-  yaw += 0.01
-  if (yaw >= 3.1415 * 2.):
-    yaw = 0
-
-  baseOrientationB = p.getQuaternionFromEuler([yaw, pitch, 0])
-  if (obB >= 0):
-    p.resetBasePositionAndOrientation(obB, basePositionB, baseOrientationB)
+  # Removed rotation code
+  # The cube will stay static now
 
   if (useCollisionShapeQuery):
     pts = p.getClosestPoints(bodyA=-1,
@@ -66,7 +59,8 @@ while (p.isConnected()):
                        lineWidth=lineWidth,
                        lifeTime=0,
                        replaceItemUniqueId=lineId)
-  #time.sleep(1./240.)
+  p.stepSimulation()  # Step the physics simulation
+  time.sleep(1./240.)  # Added step simulation for proper physics, though gravity is 0
 
 #removeCollisionShape is optional:
 #only use removeCollisionShape if the collision shape is not used to create a body

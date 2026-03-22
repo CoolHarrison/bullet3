@@ -6,6 +6,7 @@ import pybullet_data
 physicsClient = p.connect(p.GUI)
 
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
+p.configureDebugVisualizer(p.COV_ENABLE_MOUSE_PICKING, 1)  # Enable mouse picking for grabbing
 p.setGravity(0, 0, -10)
 planeId = p.loadURDF("plane.urdf", [0,0,-2])
 boxId = p.loadURDF("cube.urdf", [0,3,2],useMaximalCoordinates = True)
@@ -23,6 +24,7 @@ print(p.getDynamicsInfo(planeId, -1))
 #print(p.getDynamicsInfo(bunnyId, 0))
 print(p.getDynamicsInfo(boxId, -1))
 p.changeDynamics(boxId,-1,mass=10)
+p.changeDynamics(bunnyId, -1, mass=10000)
 while p.isConnected():
   p.setGravity(0, 0, -10)
   if (useRealTimeSimulation):
