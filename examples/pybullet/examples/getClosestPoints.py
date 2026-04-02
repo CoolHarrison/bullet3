@@ -15,7 +15,7 @@ basePositionB = [1.5, 0, 1]
 obA = -1
 obB = -1
 
-obA = p.createMultiBody(baseMass=0, baseCollisionShapeIndex=geom, basePosition=[0.5, 0, 1])
+obA = p.createMultiBody(baseMass=1, baseCollisionShapeIndex=geom, basePosition=[0.5, 0, 1])
 obB = p.createMultiBody(baseMass=1,  # Give mass to make it dynamic for mouse interaction
                         baseCollisionShapeIndex=geomBox,
                         basePosition=basePositionB,
